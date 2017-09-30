@@ -10,36 +10,37 @@ object ex2_1 {
  * n=4のとき： 1 + 2 = 3
  * ・・・
  */
-  var CurFib, PrevFib, TmpFib = 0
-  def fibonatch(x: Int): Int = {
-    for (i <- 0 to x) {
-      if (i == 0) CurFib = 0
-      else if (i == 1) CurFib = 1
-      else {
-        TmpFib = CurFib + PrevFib
-        PrevFib = CurFib
-        CurFib = TmpFib
+
+  def cal_fib(n: Int): Int = {
+
+    var x = 0
+    var y = 1
+    var fib = 0
+
+    def cal_fib_loop(n: Int, x: Int, y: Int): Int = {
+      if(n == 0) {
+        fib = x
+      } else {
+        fib = cal_fib_loop(n-1, y, x + y)
       }
-    println(s"CurFib, PrevFib = $CurFib, $PrevFib")
+      fib
     }
-    CurFib
+
+    fib = cal_fib_loop(n, 0, 1)
+    fib
   }
 
   def main(args: Array[String]): Unit = {
-    var msg = ""
-    var x, fib = 0
+    var n, fib = 0
     if(args.size != 1) {
-      msg = "Please "
+      print("This script need a argument")
     } else {
       catching(classOf[NumberFormatException]).opt {
-      x = args(0).toInt
+      n = args(0).toInt
       }
-      fib = fibonatch(x)
-      msg = "Fibonatch Number of %d is %d"
-      msg.format(x, fib)
+      fib = cal_fib(n)
     }
-    println(msg)
-    println(x)
-    println(fib)
+    val msg = "Fibonatch Number of %d is %d"
+    println(msg.format(n, fib))
   }
 }
